@@ -5,7 +5,7 @@
 ```
 terraform init
 terraform plan
-terraform apply -var -var 'aws_profile=optional_profile'
+terraform apply -var 'aws_profile=optional_profile'
 ```
 
 ## Links
