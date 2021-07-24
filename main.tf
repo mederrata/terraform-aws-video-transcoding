@@ -18,6 +18,13 @@ resource "aws_s3_bucket" "input_bucket" {
   bucket = var.transcoding_input_bucket
   acl = "private"
 
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = var.sse_algorithm
+      }
+    }
+  }
   tags = {
     Name = "ExampleAppServerInstance"
   }
@@ -26,6 +33,15 @@ resource "aws_s3_bucket" "input_bucket" {
 resource "aws_s3_bucket" "output_bucket" {
   bucket = var.transcoding_output_bucket
   acl = "private"
+
+
+  server_side_encryption_configuration {
+    rule {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = var.sse_algorithm
+      }
+    }
+  }
 
   tags = {
     Name = "ExampleAppServerInstance"
