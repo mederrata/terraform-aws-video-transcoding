@@ -1,3 +1,8 @@
+variable "aws_profile" {
+  type = string
+  default = "default"
+  description = "Choose AWS profile credentials"
+}
 variable "transcoding_input_bucket" {
   type = string
   default = ""
