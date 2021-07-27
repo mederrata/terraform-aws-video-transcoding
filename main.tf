@@ -26,7 +26,9 @@ resource "aws_s3_bucket" "input_bucket" {
     }
   }
   tags = {
-    Name = "ExampleAppServerInstance"
+    Name = "terraform-video-transcoding"
+    Terraform = "true"
+    Anisible = "false"
   }
 }
 
@@ -44,7 +46,48 @@ resource "aws_s3_bucket" "output_bucket" {
   }
 
   tags = {
-    Name = "ExampleAppServerInstance"
+    Name = "terraform-video-transcoding"
+    Terraform = "true"
+    Anisible = "false"
+  }
+}
+
+resource "aws_iam_role" "terraform_transcoding_role" {
+  name = "terraform_transcoding_role"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "VisualEditor0",
+        "Effect": "Allow",
+        "Action": "s3:GetObject",
+        "Resource": "${aws_s3_bucket.input_bucket.arn}/*"
+      },
+      {
+        "Sid": "VisualEditor1",
+        "Effect": "Allow",
+        "Action": "s3:PutObject",
+        "Resource": "${aws_s3_bucket.output_bucket.arn}/*"
+      },
+      {
+        "Sid": "VisualEditor2",
+        "Effect": "Allow",
+        "Action": [
+          "logs:PutLogEvents",
+          "logs:CreateLogStream",
+          "logs:CreateLogGroup"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
+
+  tags = {
+    Terraform = "true"
+    Anisible = "false"
   }
 }
 
