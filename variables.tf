@@ -20,3 +20,9 @@ variable "sse_algorithm" {
   default     = "AES256"
   description = "The server-side encryption algorithm to use. Valid values are `AES256` and `aws:kms`"
 }
+
+variable "vpc_id" {
+  type = string
+  default = ""
+  description = "vpc-12a324d"
+}
