@@ -152,7 +152,8 @@ resource "aws_lambda_function" "video_transcoding_lambda" {
 
   environment {
     variables = {
-      foo = "bar"
+      S3_DESTINATION_BUCKET = var.transcoding_output_bucket
+      SIGNED_URL_TIMEOUT = 60
     }
   }
 }

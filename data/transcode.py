@@ -7,8 +7,8 @@ import subprocess
 import shlex
 import boto3
 
-S3_DESTINATION_BUCKET = "${var.transcoding_output_bucket}"
-SIGNED_URL_TIMEOUT = 60
+S3_DESTINATION_BUCKET = os.environ['S3_DESTINATION_BUCKET']
+SIGNED_URL_TIMEOUT = os.environ['SIGNED_URL_TIMEOUT']
 
 def handler(event, context):
 
