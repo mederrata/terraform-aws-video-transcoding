@@ -9,6 +9,12 @@ variable "transcoding_input_bucket" {
   description = "Bucket used for writing video data in order to be processed"
 }
 
+variable "transcoding_log_bucket" {
+  type = string
+  default = ""
+  description = "Bucket used for writing logs"
+}
+
 variable "transcoding_output_bucket" {
   type = string
   default = ""
