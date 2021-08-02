@@ -11,7 +11,7 @@ terraform {
 
 provider "aws" {
   profile = var.aws_profile
-  region  = "us-west-2"
+  region  = "us-east-2"
   default_tags {
     tags = {
       Terraform = "true"
