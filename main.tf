@@ -15,7 +15,6 @@ provider "aws" {
   default_tags {
     tags = {
       Terraform = "true"
-      Anisible = "false"
     }
   }
 }
@@ -70,7 +69,7 @@ resource "aws_s3_bucket" "log_bucket" {
   }
 }*/
 
-resource "aws_cloudwatch_log_group" "example" {
+resource "aws_cloudwatch_log_group" "terraform_transcode_cloudwatch" {
   name              = "/aws/lambda/terraform-video-transcoding"
   retention_in_days = 14
 }
@@ -156,6 +155,8 @@ resource "aws_lambda_function" "video_transcoding_lambda" {
       SIGNED_URL_TIMEOUT = 60
     }
   }
+
+  depends_on = [aws_cloudwatch_log_group.terraform_transcode_cloudwatch]
 }
 
 resource "aws_lambda_permission" "input_allow_bucket" {
@@ -173,6 +174,12 @@ resource "aws_s3_bucket_notification" "video_transcoding_lambda" {
     lambda_function_arn = aws_lambda_function.video_transcoding_lambda.arn
     events        = ["s3:ObjectCreated:*"]
     filter_suffix = ".mkv"
+  }
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.video_transcoding_lambda.arn
+    events        = ["s3:ObjectCreated:*"]
+    filter_suffix = ".mp4"
   }
 
   depends_on = [aws_lambda_permission.input_allow_bucket]

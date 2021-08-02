@@ -15,7 +15,7 @@ def handler(event, context):
     s3_source_bucket = event['Records'][0]['s3']['bucket']['name']
     s3_source_key = event['Records'][0]['s3']['object']['key']
 
-    s3_source_basename = os.path.splitext(os.path.basename(s3_source_key))[0]
+    s3_source_basename, _ = os.path.splitext(os.path.basename(s3_source_key))
     s3_destination_filename = s3_source_basename + "_cfr.ts"
 
     s3_client = boto3.client('s3')
